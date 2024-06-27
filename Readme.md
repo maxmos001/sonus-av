@@ -45,8 +45,6 @@ image_description = image_processor.describe_image(image_path)
 print(image_description)
 ```
 
-## Contributions
-Contributions are welcome! Please fork the repository and open a pull request with your improvements.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
