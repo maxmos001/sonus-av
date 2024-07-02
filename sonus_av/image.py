@@ -3,7 +3,7 @@ import os
 import base64
 import requests
 import tempfile
-from imgcat import imgcat
+from imgcat import imgcat  # Assuming imgcat library is correctly installed
 
 class ImageProcessor:
 
@@ -54,8 +54,7 @@ class ImageProcessor:
             print(f"API request failed: {e}")
         return "Failed to get caption"
 
-    def process_images(self, input_path, api_key):
-        caption = ""
+    def process_images(self, input_path):
         with tempfile.TemporaryDirectory() as temp_dir:
             if os.path.isdir(input_path):
                 directory_to_process = input_path
@@ -70,7 +69,12 @@ class ImageProcessor:
                 for file_name in filter(lambda f: f.lower().endswith(('.png', '.jpg', '.jpeg')), files):
                     image_path = os.path.join(root, file_name)
                     base64_image = self.encode_image(image_path)
-                    caption = self.get_caption(base64_image, api_key)
+                    caption = self.get_caption(base64_image, self.api_key)
+                    
+                    # Display the image using imgcat (assuming it's installed and available)
                     imgcat(open(image_path, 'rb').read())
+                    
+                    # Print the caption
                     print(f"Caption: {caption}\n")
-        return caption
+
+        return "Image processing complete"
