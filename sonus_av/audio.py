@@ -18,11 +18,10 @@ class AudioProcessor:
                 recognized_text = self.recognizer.recognize_google(audio, language=self.input_lang)
                 print(f"Recognized (original): {recognized_text}")
 
-                # Translate to English
+                # Translate to the desired output language
                 if self.output_lang != 'en':
-                    speech_text = transliterate_text(recognized_text, lang_code='en')
-                    translated_text = GoogleTranslator(source=self.input_lang, target=self.output_lang).translate(text=speech_text)
-                    print(f"Translated to English: {translated_text}")
+                    translated_text = GoogleTranslator(source=self.input_lang, target=self.output_lang).translate(text=recognized_text)
+                    print(f"Translated: {translated_text}")
                     return translated_text
                 return recognized_text
             except sr.UnknownValueError:
@@ -31,4 +30,9 @@ class AudioProcessor:
                 return "Failed to request translation."
 
     def translate_text(self, text):
-        return GoogleTranslator(source=self.input_lang, target='en').translate(text=text)
+        translated_text = GoogleTranslator(source=self.input_lang, target='en').translate(text=text)
+        return translated_text
+
+# Example usage:
+# processor = AudioProcessor(input_lang='auto', output_lang='en')
+# print(processor.capture())
