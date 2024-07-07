@@ -31,19 +31,5 @@ recognized_text = audio_processor.capture('path_to_your_audio_file.wav')
 print(recognized_text)
 ```
 
-### Image Processing
-Here is how you can use the `ImageProcessor` to get a description of an image:
-
-```python
-from sonus_av import ImageProcessor
-
-# Initialize the processor with your OpenAI API key
-image_processor = ImageProcessor(api_key='your-openai-api-key')
-
-# Get an image description
-image_description = image_processor.describe_image(image_path)
-print(image_description)
-```
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
