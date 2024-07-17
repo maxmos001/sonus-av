@@ -1,7 +1,9 @@
 # Sonus-AV
 
 ## Description
-Sonus-AV is a Python library designed to enhance Large Language Models (LLMs) by adding support for voice and image inputs. This library simplifies the process of converting speech to text and analyzing images before feeding the information to LLMs.
+Sonus-AV is a Python library designed to enhance Large Language Models (LLMs) by adding support for voice and image inputs. 
+Add a feature to convert the final translated text back to speech in the output language
+This library simplifies the process of converting speech to text and analyzing images before feeding the information to LLMs.
 
 ## Features
 - **Audio Processing**: Convert audio input to text using `AudioProcessor`, which supports multiple languages and can handle real-time translation.
