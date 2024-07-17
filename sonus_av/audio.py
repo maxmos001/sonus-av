@@ -11,22 +11,29 @@ class AudioProcessor:
         self.transliteration_scheme = transliteration_scheme
         self.recognizer = sr.Recognizer()
         self.tts_engine = pyttsx3.init()
-        
+
         # Set up logging
         logging.basicConfig(filename='audio_processor.log', level=logging.ERROR)
 
     def capture_from_microphone(self):
+        """Capture audio from the microphone and process it."""
         with sr.Microphone() as source:
             print("Listening...")
             audio = self.recognizer.listen(source)
             return self.process_audio(audio)
 
     def process_audio_file(self, file_path):
-        with sr.AudioFile(file_path) as source:
-            audio = self.recognizer.record(source)
-            return self.process_audio(audio)
+        """Process an audio file and extract text."""
+        try:
+            with sr.AudioFile(file_path) as source:
+                audio = self.recognizer.record(source)
+                return self.process_audio(audio)
+        except FileNotFoundError:
+            logging.error(f"Audio file not found: {file_path}")
+            return "Audio file not found."
 
     def process_audio(self, audio):
+        """Recognize speech, translate, and optionally transliterate and synthesize speech."""
         try:
             # Recognize speech using Google's speech recognition
             recognized_text = self.recognizer.recognize_google(audio, language=self.input_lang)
@@ -39,7 +46,7 @@ class AudioProcessor:
             if self.transliteration_scheme:
                 transliterated_text = transliterate_text(translated_text, self.transliteration_scheme)
                 print(f"Transliterated: {transliterated_text}")
-                return transliterated_text
+                translated_text = transliterated_text
 
             # Convert text to speech
             self.text_to_speech(translated_text)
@@ -54,6 +61,7 @@ class AudioProcessor:
             return "Failed to request results."
 
     def translate_text(self, text):
+        """Translate text to the specified output language."""
         try:
             translated_text = GoogleTranslator(source=self.input_lang, target=self.output_lang).translate(text=text)
             print(f"Translated: {translated_text}")
@@ -63,6 +71,7 @@ class AudioProcessor:
             return "Translation failed."
 
     def text_to_speech(self, text):
+        """Convert text to speech using pyttsx3."""
         try:
             self.tts_engine.say(text)
             self.tts_engine.runAndWait()
@@ -72,7 +81,7 @@ class AudioProcessor:
 
 # Example usage:
 # processor = AudioProcessor(input_lang='auto', output_lang='en', transliteration_scheme='Latin')
-# processor.capture_from_microphone()
+# print(processor.capture_from_microphone())
 
 # To process an audio file instead of using the microphone:
-# processor.process_audio_file('path_to_audio_file.wav')
+# print(processor.process_audio_file('path_to_audio_file.wav'))
